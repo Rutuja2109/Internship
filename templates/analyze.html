@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drone Video Analysis</title>
+</head>
+<body>
+    <h1>Drone Video Analysis</h1>
+
+    <!-- Display total pixel value of the videos (you can add more <div> elements for additional videos) -->
+    <div>
+        <video id="video1" controls>
+            <source src="{{ video_url }}" type="video/mp4">
+        </video>
+        <div id="pixel_value_1"></div>
+    </div>
+
+    <div>
+        <video id="video2" controls>
+            <source src="{{ video_url }}" type="video/mp4">
+        </video>
+        <div id="pixel_value_2"></div>
+    </div>
+
+    <!-- Add a button to play videos simultaneously -->
+    <button onclick="playVideos()">Play Videos Simultaneously</button>
+
+    <!-- Add buttons to download original and processed videos -->
+    <a href="{{ video_url }}" download>Download Original Video</a>
+    <a href="{{ processed_video_url }}" download>Download Processed Video</a>
+
+    <script type="text/javascript">
+        // Function to play/pause videos simultaneously
+        function playVideos() {
+            var video1 = document.getElementById('video1');
+            var video2 = document.getElementById('video2');
+            
+            if (video1.paused && video2.paused) {
+                video1.play();
+                video2.play();
+            } else {
+                video1.pause();
+                video2.pause();
+            }
+        }
+
+        // Function to display total pixel value of the specified video frame (you can change the coordinates)
+        function displayPixelValue(videoId) {
+            var video = document.getElementById(videoId);
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            var pixelData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+            var totalPixelValue = 0;
+
+            // Calculate the total pixel value (sum of all pixel values)
+            for (var i = 0; i < pixelData.length; i += 4) {
+                totalPixelValue += pixelData[i] + pixelData[i + 1] + pixelData[i + 2];
+            }
+
+            var pixelValueElement = document.getElementById('pixel_value_' + videoId);
+            pixelValueElement.innerHTML = 'Total Pixel Value: ' + totalPixelValue;
+        }
+
+        // Call the displayPixelValue function for each video at regular intervals (you can change the interval if needed)
+        setInterval(function() {
+            displayPixelValue('video1');
+            displayPixelValue('video2');
+            // Add more calls for additional videos if needed
+        }, 1000); // Update pixel value every 1 second (1000 milliseconds)
+    </script>
+</body>
+</html>

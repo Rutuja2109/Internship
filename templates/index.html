@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drone Video Processing and Player</title>
+</head>
+<body>
+    <h1>Drone Video Processing and Player</h1>
+    <h2>Video Processing:</h2>
+    <form action="/process_video" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept=".mp4, .avi">
+        <br>
+        <input type="radio" name="quality_option" value="upgrade"> Upgrade Quality
+        <input type="radio" name="quality_option" value="downgrade"> Downgrade Quality
+        <br>
+        <button type="submit">Process Video</button>
+    </form>
+
+    <h2>Video Player:</h2>
+    <form action="/play_videos" method="post" enctype="multipart/form-data">
+        <input type="file" name="video1" accept=".mp4, .avi">
+        <br>
+        <input type="file" name="video2" accept=".mp4, .avi">
+        <br>
+        <button type="submit">Play Videos</button>
+    </form>
+</body>
+</html>

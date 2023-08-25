@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drone Video Map</title>
+    <script src="https://www.google.com/earth/plugin/earth_api.js"></script>
+</head>
+<body>
+    <h1>Drone Video Map</h1>
+    <div id="map" style="width: 800px; height: 600px;"></div>
+
+    <script type="text/javascript">
+        var ge;
+
+        function init() {
+            google.earth.createInstance('map', initCB, failureCB);
+        }
+
+        function initCB(instance) {
+            ge = instance;
+            ge.getWindow().setVisibility(true);
+
+            // Load drone video and create a KML tour with geographical coordinates for each frame
+            var droneVideo = '{{ video_url }}';
+            var kmlTour = generateKmlTour(droneVideo);
+
+            // Play the KML tour
+            ge.getTourPlayer().setTour(kmlTour);
+            ge.getTourPlayer().play();
+        }
+
+        function failureCB(errorCode) {
+            console.error('Failed to initialize Google Earth: Error ' + errorCode);
+        }
+
+        google.setOnLoadCallback(init);
+    </script>
+</body>
+</html>
